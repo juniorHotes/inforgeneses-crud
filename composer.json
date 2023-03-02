@@ -13,5 +13,7 @@
             "email": "juniorhotes53@gmail.com"
         }
     ],
-    "require": {}
+    "require": {
+        "league/plates": "^3.5"
+    }
 }
