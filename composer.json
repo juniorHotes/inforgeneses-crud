@@ -1,0 +1,17 @@
+{
+    "name": "joao/inforgenenses-crud",
+    "description": "CRUD PHP - CREAT, READ, UPDATE AND DELETE",
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "App\\": "App/"
+        }
+    },
+    "authors": [
+        {
+            "name": "juniorHotes",
+            "email": "juniorhotes53@gmail.com"
+        }
+    ],
+    "require": {}
+}
