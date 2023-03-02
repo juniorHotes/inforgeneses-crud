@@ -1,11 +1,11 @@
-function getPassword() {
-    var text = document.getElementById('password').value;
+function getPassword(e) {
+    const text = e.target.value;
 
-    var length = document.getElementById('length');
-    var lowercase = document.getElementById('lowercase');
-    var uppercase = document.getElementById('uppercase');
-    var number = document.getElementById('number');
-    var special = document.getElementById('special');
+    const length = $('#length')[0];
+    const lowercase = $('#lowercase')[0];
+    const uppercase = $('#uppercase')[0];
+    const number = $('#number')[0];
+    const special = $('#special')[0];
 
     checkIfEightChar(text) ? length.classList.add('list-group-item-success') : length.classList.remove('list-group-item-success');
     checkIfOneLowercase(text) ? lowercase.classList.add('list-group-item-success') : lowercase.classList.remove('list-group-item-success');
@@ -34,10 +34,15 @@ function checkIfOneSpecialChar(text) {
     return /[~`!#$%\^&*+=\-\[\]\\';,/{}|\\":<>\?]/g.test(text);
 }
 
-function togglePassword() {
-    var passInput = document.getElementById('password');
-    var togglePW = document.getElementById('togglePW');
-
-    passInput.type === "password" ? passInput.type = "text" : passInput.type = "password";
-    togglePW.textContent === "Show Password" ? togglePW.textContent = "Hide Password" : togglePW.textContent = "Show Password";
-}
+jQuery(function() {
+    $('#password')
+    .on('focus', () => {
+        $('ul#requirements').addClass('show');
+    })
+    .on('blur', () => {
+        $('ul#requirements').removeClass('show');
+    })
+    .on('keyup', (e) => {
+        getPassword(e);
+    });
+});
