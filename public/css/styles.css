@@ -1,0 +1,15 @@
+span.spinner-grow {
+    display: none;
+}
+
+span.spinner-grow.show {
+    display: inline-block;
+}
+
+form ul#requirements {
+    display: none;
+}
+
+form ul#requirements.show {
+    display: block;
+}
