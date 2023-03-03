@@ -13,3 +13,7 @@ form ul#requirements {
 form ul#requirements.show {
     display: block;
 }
+
+form .form-feedback {
+    color: var(--bs-danger);
+}
