@@ -1,5 +1,9 @@
 <?php $this->layout("master") ?>
 
+<?php 
+    $users = json_decode(str_replace('&quot;', '"', $this->e($users)));
+?>
+
 <div class="container border pt-4 px-5 rounded-3 ">
     <a href="/user/create" class="btn btn-primary">Adicionar</a>
     <table class="table caption-top">
@@ -13,18 +17,14 @@
         </tr>
     </thead>
     <tbody>
+        <?php foreach ($users as $user): ?>
         <tr>
-            <th scope="row"><a href="/user/edit?user=1" class="link-primary">1</a></th>
-            <td><a href="/user/edit?user=1" class="link-primary">João</a></td>
-            <td><a href="/user/edit?user=1" class="link-primary">domingosmachado@email.com</a></td>
-            <td><a href="/user/edit?user=1" class="link-primary">15/06/1992</a></td>
+            <th scope="row"><a href="/user/edit?user=<?= $user->id ?>" class="link-primary"><?= $user->id ?></a></th>
+            <td><a href="/user/edit?user=<?= $user->id ?>" class="link-primary"><?= $user->name ?></a></td>
+            <td><a href="/user/edit?user=<?= $user->id ?>" class="link-primary"><?= $user->email ?></a></td>
+            <td><a href="/user/edit?user=<?= $user->id ?>" class="link-primary"><?= $user->created_at ?></a></td>
         </tr>
-        <tr>
-            <th scope="row"><a href="/user/edit?user=2" class="link-primary">2</a></th>
-            <td><a href="/user/edit?user=2" class="link-primary">Alice</a></td>
-            <td><a href="/user/edit?user=2" class="link-primary">alice@email.com</a></td>
-            <td><a href="/user/edit?user=2" class="link-primary">11/10/2016</a></td>
-        </tr>
+        <?php endforeach; ?>
     </tbody>
     </table>
 </div>
