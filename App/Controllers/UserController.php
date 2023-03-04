@@ -11,8 +11,13 @@ class UserController extends Controller {
     }
 
     public function render_edit(array $params) {
+
+        if(!isset($_GET['user']) || empty($_GET['user'])) {
+            header('location: /');
+        }
+
         $user_model = new UserModel();
-        $user = $user_model->get(isset($_GET['user']) ? $_GET['user'] : '0');
+        $user = $user_model->get_user_by('id', $_GET['user']);
         return $this->view('user-edit', [ 'user' => json_encode($user) ]);
     }
 
@@ -161,7 +166,125 @@ class UserController extends Controller {
     }
 
     public function edit(array $params) {
-        var_dump($params);
+
+        if(!isset($_GET['user']) || empty($_GET['user'])) {
+            header('location: /');
+        }
+
+        $success = true;
+        $fields = [];
+
+        $params['name'] = htmlspecialchars($params['name']);
+        $params['email'] = htmlspecialchars($params['email']);
+
+        $user_model = new UserModel();
+        $user = $user_model->get_user_by('id', $_GET['user']);
+
+        foreach ($params as $key => $value) {
+            if(empty($value)) {
+                $fields[$key] = [
+                    'value' => $value,
+                    'message' => 'Este campo não pode ser limpo.'
+                ];
+            }
+        }
+
+        if(count($fields) > 0) {
+            $success = false;
+
+            return $this->view('user-edit',
+            [ 
+                'user' => json_encode($user),
+                'data' => json_encode([
+                    'params' => $params,
+                    'message' => 'Todos os campos são obrigatórios.',
+                    'fields' => $fields,
+                    'success' => $success
+                ])
+            ]);
+        }
+
+        if($params['name'] !== $user['name'] ) {
+            if(FormValidation::user_exists($params['name'])) {
+                $success = false;
+    
+                $fields['name'] = [
+                    'value' => $params['name'],
+                    'message' => 'Este usuário já existe.'
+                ];
+    
+                return $this->view('user-edit',
+                [ 
+                    'user' => json_encode($user),
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => 'O nome de usuário já existe.',
+                        'fields' => $fields,
+                        'success' => $success
+                    ])
+                ]);
+            }            
+        }
+
+        if($params['email'] !== $user['email'] ) {
+            if(FormValidation::email_exists($params['email'])) {
+                $success = false;
+    
+                $fields['email'] = [
+                    'value' => $params['email'],
+                    'message' => 'Este e-mail já está cadastrado.'
+                ];
+    
+                return $this->view('user-edit',
+                [ 
+                    'user' => json_encode($user),
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => 'Insira um outro e-mail',
+                        'fields' => $fields,
+                        'success' => $success
+                    ])
+                ]);
+            }
+        }
+        
+        if(!FormValidation::is_email($params['email'])) {
+            $success = false;
+
+            $fields['email'] = [
+                'value' => $params['email'],
+                'message' => 'Este e-mail não corresponde à um e-mail válido.'
+            ];
+
+            return $this->view('user-edit',
+            [ 
+                'user' => json_encode($user),
+                'data' => json_encode([
+                    'params' => $params,
+                    'message' => 'E-mail inválido',
+                    'fields' => $fields,
+                    'success' => $success
+                ])
+            ]);
+        }
+
+        if($success) {   
+            $params['id'] = $_GET['user'];         
+            if($user_model->update($params)) {
+                $uri = $_SERVER['REQUEST_URI'];
+                header('location: ' . $uri);
+            } else {
+                return $this->view('user-edit', 
+                [ 
+                    'user' => json_encode($user),
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => 'Houve um erro ao tentar editar seu usuário.',
+                        'success' => $success
+                    ])
+                ]);
+            }
+        }
     }
 
     public function delete(array $params) {
