@@ -15,7 +15,7 @@ function getPassword(e) {
 }
 
 function checkIfEightChar(text){
-    return text.length >= 8;
+    return (text.length >= 8 && text.length <= 20);
 }
 
 function checkIfOneLowercase(text) {
@@ -36,8 +36,9 @@ function checkIfOneSpecialChar(text) {
 
 jQuery(function() {
     $('#password')
-    .on('focus', () => {
+    .on('focus', (e) => {
         $('ul#requirements').addClass('show');
+        getPassword(e)
     })
     .on('blur', () => {
         $('ul#requirements').removeClass('show');
