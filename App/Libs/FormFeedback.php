@@ -20,7 +20,7 @@ class FormFeedback {
     }
 
     public function field_val(string $field_id) {
-        return isset($this->data->params) ? $this->data->params->$field_id : '';
+        return isset($this->data->params->$field_id) ? $this->data->params->$field_id : '';
     }
 
     public function is_invalid(string $field_id) {
