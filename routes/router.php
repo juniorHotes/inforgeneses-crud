@@ -31,6 +31,7 @@ $routes = [
     'GET' => [
         '/' => fn() => loadController('HomeController', 'index'),
         '/login' => fn() => loadController('LoginController', 'index'),
+        '/logout' => fn() => loadController('LoginController', 'logout'),
         '/user/create' => fn() => loadController('UserController', 'render_create'),
         '/user/edit' => fn() => loadController('UserController', 'render_edit')
     ],
