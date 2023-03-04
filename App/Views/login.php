@@ -2,7 +2,7 @@
 
 <?php $form = new \App\Libs\FormFeedback($this->e(isset($data) ? $data : '')) ?>
 
-<?php if($this->e($is_logged) === ''): ?>
+<?php if($this->e(isset($is_logged) ? $is_logged : '') === ''): ?>
   <div class="container col-xxl-5 col-lg-5 col-md-6 border py-4 px-5 rounded-3">
       <h3>Entre com seu usuário</h3>
       <hr>
