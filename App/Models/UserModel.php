@@ -39,6 +39,28 @@ class UserModel {
         return $prepare->execute();
     }
 
+    public function update(array $params) {
+        
+        $query = "UPDATE `inforgenenses_crud`.`users` SET 
+                    name=:name, 
+                    email=:email 
+                    WHERE id=:id
+                ";
+
+        $prepare = $this->conn->prepare($query);
+
+        $id = $params['id'];
+        $name = $params['name'];
+        $email = $params['email'];
+
+        $prepare->bindValue(':id', $id, \PDO::PARAM_INT);
+        $prepare->bindValue(':name', $name);
+        $prepare->bindValue(':email', $email);
+
+        return $prepare->execute();
+    }
+
+
     public function get_all() {
 
         $query = "SELECT * FROM `inforgenenses_crud`.`users` ORDER BY created_at DESC";
@@ -57,9 +79,9 @@ class UserModel {
         return array();
     }
 
-    public function get(string $id) {
+    public function get_user_by(string $key, string $value) {
 
-        $query = "SELECT * FROM `inforgenenses_crud`.`users` WHERE id='{$id}'";
+        $query = "SELECT * FROM `inforgenenses_crud`.`users` WHERE {$key}='{$value}'";
 
         $result = $this->conn->prepare($query);
         $result->execute();
