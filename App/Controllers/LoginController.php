@@ -6,8 +6,21 @@ use App\Models\UserModel;
 
 class LoginController extends Controller {
 
-    public function index(array $params) {
-        return $this->view('login');
+    public function index() {
+
+        $params = [
+            'is_logged' => false,
+            'user' => ''
+        ];
+
+        if(LoginController::is_logged()) {
+            $user_model = new UserModel();
+            $user = $user_model->get_user_by('id', LoginController::current_user_id());
+            $params['is_logged'] = true; 
+            $params['user'] = $user['name']; 
+        }
+
+        return $this->view('login', $params);
     }
 
     public function login(array $params) {
@@ -86,7 +99,7 @@ class LoginController extends Controller {
         if($success) {
                         
             session_destroy();
-            
+
             session_start();
             $_SESSION['user'] = $user['id'];
 
@@ -96,6 +109,10 @@ class LoginController extends Controller {
 
     public function logout(array $params) {
 
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        
         session_destroy();
 
         header('location: /');
