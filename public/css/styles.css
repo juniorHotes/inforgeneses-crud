@@ -28,3 +28,12 @@ form #requirements li.list-group-item-success {
     text-decoration: line-through;
     color: var(--bs-green);
 }
+
+table.table a {
+    text-decoration: none;
+}
+
+table.table tbody tr td:last-child,
+table.table thead tr th:last-child {
+    text-align: end;
+}
