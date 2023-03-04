@@ -82,20 +82,22 @@
             <h5 class="modal-title" id="confirm-delete-user-label">Confirmação de exclusão de conta</h5>
             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
-        <form class="needs-validation" action="/user/delete" method="post">
+        <form class="needs-validation" id="form-delete-user" action="/user/delete" method="post">
+            <input type="hidden" id="confirm-text" value="<?= $user->name ?>/deletar"/>
+            <input type="hidden" id="user_id" name="user_id" value="<?= $user->id ?>/deletar"/>
             <div class="modal-body">
                 <div class="mb-3">
                     <p>Essa ação não pode ser desfeita. Isso excluirá permanentemente o seu usuário.</p>
                 </div>
                 <div class="mb-3">
-                    <label for="pass" class="col-form-label">Digite sua senha para confirmar.</label>
-                    <input type="password" class="form-control required <?= $form->is_invalid('pass') ?>" id="pass" name="pass">
-                    <div class="invalid-feedback" id="pass-feedback"><?= $form->field_feedback('pass') ?></div>
+                    <label for="pass" class="col-form-label">Digite <strong><?= $user->name ?>/deletar</strong> abaixo para confirmar.</label>
+                    <input type="text" class="form-control required" id="delete_user" name="delete_user">
+                    <div class="invalid-feedback" id="pass-feedback"></div>
                 </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-                <button type="submit" class="btn btn-danger">
+                <button type="submit" id="btn-delete" class="btn btn-danger" disabled>
                     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
                     Excluír
                 </button>

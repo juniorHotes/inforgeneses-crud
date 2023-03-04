@@ -27,4 +27,19 @@ jQuery(function() {
             onSubmit(btn);
         });
     });
+
+
+    function deleteUser() {
+        const confirmText = $('#form-delete-user #confirm-text').val();
+        $('#form-delete-user input#delete_user').on('keyup', (e) => {
+            
+            if(e.target.value === confirmText) {
+                $('#form-delete-user #btn-delete').removeAttr('disabled');
+            } else {
+                $('#form-delete-user #btn-delete').attr('disabled', true);
+            }
+        });
+    }
+
+    deleteUser();
 });

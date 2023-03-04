@@ -417,6 +417,10 @@ class UserController extends Controller {
     }
 
     public function delete(array $params) {
-        var_dump($params);
+        
+        $user_model = new UserModel();
+        if($user_model->delete($params)) {
+            header('location: /');
+        }
     }
 }

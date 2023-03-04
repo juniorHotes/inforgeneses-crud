@@ -78,6 +78,18 @@ class UserModel {
         return $prepare->execute();
     }
 
+    public function delete(array $params) {
+        
+        $query = "DELETE FROM `inforgenenses_crud`.`users` WHERE id=:id";
+
+        $prepare = $this->conn->prepare($query);
+
+        $id = $params['user_id'];
+
+        $prepare->bindValue(':id', $id, \PDO::PARAM_INT);
+        return $prepare->execute();
+    }
+
     public function get_all() {
 
         $query = "SELECT * FROM `inforgenenses_crud`.`users` ORDER BY created_at DESC";
