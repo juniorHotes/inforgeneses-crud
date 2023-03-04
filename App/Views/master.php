@@ -10,6 +10,42 @@
     <title>Inforgenenses CRUD</title>
 </head>
 <body>
+    <?php 
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+        $current_user = isset($_SESSION['user']) ? $_SESSION['user'] : '0';
+    ?>
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Inforgenenses</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="/">Usuários</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/edit?user=<?= $current_user ?>">Minha conta</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/user/create">Cadastrar-se</a>
+                    </li>
+                    <?php if($current_user == '0'): ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/login">Entrar</a>
+                    </li>
+                    <?php else: ?>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/logout">Sair</a>
+                    </li>
+                    <?php endif; ?>
+                </ul>
+            </div>
+        </div>
+    </nav>
     <div class="container-sm mt-5 mb-5">
         <?= $this->section("content") ?>
     </div>
