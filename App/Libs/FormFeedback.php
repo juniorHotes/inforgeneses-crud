@@ -6,7 +6,7 @@ class FormFeedback {
     private $data;
 
     function __construct(string $data) {
-        if($_SERVER['REQUEST_METHOD'] = "POST") {
+        if($_SERVER['REQUEST_METHOD'] == "POST") {
             $this->data = json_decode(str_replace('&quot;', '"', $data));
         }
     }
