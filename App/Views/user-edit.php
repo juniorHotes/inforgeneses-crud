@@ -99,7 +99,7 @@
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
                 <button type="submit" id="btn-delete" class="btn btn-danger" disabled>
                     <span class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                    Excluír
+                    <i class="bi bi-trash-fill"></i> Excluír
                 </button>
             </div>
         </form>
