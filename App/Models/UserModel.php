@@ -13,29 +13,62 @@ class UserModel {
 
     public function insert(array $params) {
         
-        $query = "INSERT INTO users 
+        $query = "INSERT INTO `inforgenenses_crud`.`users` 
             (
                 name, 
                 email, 
-                password, 
-                created_at,
-                update_at
+                password
             ) 
             values (
-                ':name', 
-                ':email', 
-                ':password', 
-                CURRENT_TIMESTAMP,
-                CURRENT_TIMESTAMP
+                :name, 
+                :email, 
+                :password
                 );
         ";
 
         $prepare = $this->conn->prepare($query);
 
-        $prepare->bindValue(':name', $params['name']);
-        $prepare->bindValue(':email', $params['email']);
-        $prepare->bindValue(':password', $params['password']);
+        $user_name = $params['user_name'];
+        $user_email = $params['user_email'];
+        $password = password_hash($params['password'], PASSWORD_DEFAULT);
+
+        $prepare->bindValue(':name', $user_name);
+        $prepare->bindValue(':email', $user_email);
+        $prepare->bindValue(':password', $password);
 
         return $prepare->execute();
+    }
+
+    public function get_all() {
+
+        $query = "SELECT * FROM `inforgenenses_crud`.`users` ORDER BY created_at DESC";
+
+        $result = $this->conn->prepare($query);
+        $result->execute();
+
+        if($result and $result->rowCount() !== 0) {
+            while($user = $result->fetch(\PDO::FETCH_ASSOC)) {
+                $users[] = $user;
+            }
+
+            return $users;
+        }
+
+        return array();
+    }
+
+    public function get(string $id) {
+
+        $query = "SELECT * FROM `inforgenenses_crud`.`users` WHERE id='{$id}'";
+
+        $result = $this->conn->prepare($query);
+        $result->execute();
+
+        if($result and $result->rowCount() !== 0) {
+            $user = $result->fetch(\PDO::FETCH_ASSOC);
+            return $user;
+        }
+
+        return array();
     }
 }
