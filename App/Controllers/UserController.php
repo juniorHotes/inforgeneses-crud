@@ -222,7 +222,7 @@ class UserController extends Controller {
                 'user' => json_encode($user),
                 'data' => json_encode([
                     'params' => $params,
-                    'message' => 'Todos os campos são obrigatórios.',
+                    'message' => '',
                     'fields' => $fields,
                     'success' => $success
                 ])
@@ -243,7 +243,7 @@ class UserController extends Controller {
                     'user' => json_encode($user),
                     'data' => json_encode([
                         'params' => $params,
-                        'message' => 'O nome de usuário já existe.',
+                        'message' => '',
                         'fields' => $fields,
                         'success' => $success
                     ])
@@ -265,7 +265,7 @@ class UserController extends Controller {
                     'user' => json_encode($user),
                     'data' => json_encode([
                         'params' => $params,
-                        'message' => 'Insira um outro e-mail',
+                        'message' => '',
                         'fields' => $fields,
                         'success' => $success
                     ])
@@ -286,7 +286,7 @@ class UserController extends Controller {
                 'user' => json_encode($user),
                 'data' => json_encode([
                     'params' => $params,
-                    'message' => 'E-mail inválido',
+                    'message' => '',
                     'fields' => $fields,
                     'success' => $success
                 ])
