@@ -10,7 +10,7 @@
     <div class="border mt-5 mb-5 py-4 px-5 rounded-3">
         <h3>Editar usuário</h3>
         <hr>
-        <form class="pt-2 needs-validation" method="POST" action="/user/edit?user=<?= $_GET['user'] ?>">
+        <form class="pt-2 needs-validation" method="POST" action="/user/edit?action=edit_user&user=<?= $_GET['user'] ?>">
             <div class="mb-3">
                 <label for="name" class="form-label">Nome</label>
                 <input type="text" class="form-control required <?= $form->is_invalid('name') ?>" name="name" id="name" value="<?= ($_SERVER['REQUEST_METHOD'] == "POST") ? $form->field_val('name') : $user->name ?>" placeholder="Ex: Jhon">
@@ -37,21 +37,21 @@
     <div class="border py-4 px-5 rounded-3">
         <h3>Trocar senha</h3>
         <hr>
-        <form class="pt-2 needs-validation" method="POST" action="/user/change-pass">
+        <form class="pt-2 needs-validation" method="POST" action="/user/edit?action=change_pass&user=<?= $_GET['user'] ?>">
             <div class="mb-3">
                 <label for="current_pass" class="form-label">Senha atual</label>
-                <input type="password" class="form-control required <?= $form->is_invalid('current_pass') ?>" name="current_pass" id="current_pass" placeholder="Senha que você usa atualmente">
+                <input type="password" class="form-control required <?= $form->is_invalid('current_pass') ?>" name="current_pass" id="current_pass" value="<?= $form->field_val('current_pass') ?>" placeholder="Senha que você usa atualmente">
                 <div class="invalid-feedback" id="current_pass-feedback"><?= $form->field_feedback('current_pass') ?></div>
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Nova senha</label>
-                <input type="password" class="form-control required <?= $form->is_invalid('password') ?>" name="password" id="password" placeholder="Sua nova senha">
+                <input type="password" class="form-control required <?= $form->is_invalid('password') ?>" name="password" id="password" value="<?= $form->field_val('password') ?>" placeholder="Sua nova senha">
                 <div class="invalid-feedback" id="password-feedback"><?= $form->field_feedback('password') ?></div>
                 <?php require_once(dirname(__DIR__, 2) . '/templates/html-password-requirements.html') ?>
             </div>
             <div class="mb-3">
                 <label for="conf_pass" class="form-label">Confirmar nova senha</label>
-                <input type="password" class="form-control required <?= $form->is_invalid('conf_pass') ?>" name="conf_pass" id="conf_pass" placeholder="Confirme sua nova senha">
+                <input type="password" class="form-control required <?= $form->is_invalid('conf_pass') ?>" name="conf_pass" id="conf_pass" value="<?= $form->field_val('conf_pass') ?>" placeholder="Confirme sua nova senha">
                 <div class="invalid-feedback" id="conf_pass-feedback"><?= $form->field_feedback('conf_pass') ?></div>
             </div>
             <hr>

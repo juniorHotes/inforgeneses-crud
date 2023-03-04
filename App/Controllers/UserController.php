@@ -171,6 +171,22 @@ class UserController extends Controller {
             header('location: /');
         }
 
+        if(isset($_GET['action'])) {
+            switch ($_GET['action']) {
+                case 'change_pass':
+                    $this->change_pass($params);
+                    break;  
+                default:
+                    $this->edit_user($params);
+                    break;
+            }
+        } else {
+            $uri = $_SERVER['REQUEST_URI'];
+            header('location: ' . $uri);
+        }
+    }
+
+    private function edit_user(array $params) {
         $success = true;
         $fields = [];
 
@@ -280,6 +296,119 @@ class UserController extends Controller {
                     'data' => json_encode([
                         'params' => $params,
                         'message' => 'Houve um erro ao tentar editar seu usuário.',
+                        'success' => $success
+                    ])
+                ]);
+            }
+        }
+    }
+
+    private function change_pass(array $params) {
+
+        $success = true;
+        $fields = [];
+
+        $user_model = new UserModel();
+        $user = $user_model->get_user_by('id', $_GET['user']);
+
+        $params['name'] = $user['name'];
+        $params['email'] = $user['email'];
+
+        foreach ($params as $key => $value) {
+            if(empty($value)) {
+                $fields[$key] = [
+                    'value' => $value,
+                    'message' => 'Este campo não pode está em branco.'
+                ];
+            }
+        }
+
+        if(count($fields) > 0) {
+            $success = false;
+
+            return $this->view('user-edit',
+            [ 
+                'user' => json_encode($user),
+                'data' => json_encode([
+                    'params' => $params,
+                    'message' => 'Campos não preenchidos corretamente.',
+                    'fields' => $fields,
+                    'success' => $success
+                ])
+            ]);
+        }
+
+        if(!FormValidation::password_verify($_GET['user'], $params['current_pass'])) {
+            $success = false;
+    
+            $fields['current_pass'] = [
+                'value' => $params['current_pass'],
+                'message' => 'Sua senha atual está incorreta.'
+            ];
+
+            return $this->view('user-edit',
+            [ 
+                'user' => json_encode($user),
+                'data' => json_encode([
+                    'params' => $params,
+                    'message' => '',
+                    'fields' => $fields,
+                    'success' => $success
+                ])
+            ]);
+        }
+
+        if(!FormValidation::check_password($params['password'])) {
+            $success = false;
+
+            $fields['password'] = [
+                'value' => $params['password'],
+                'message' => 'Sua senha não atende aos critérios solicitados abaixo.'
+            ];
+
+            return $this->view('user-edit', 
+                [ 
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => '',
+                        'fields' => $fields,
+                        'success' => $success
+                    ])
+                ]);
+        }
+
+        if($params['password'] !== $params['conf_pass'] ) {
+            $success = false;
+
+            $fields['conf_pass'] = [
+                'value' => $params['conf_pass'],
+                'message' => 'As senhas não conferem.'
+            ];
+
+            return $this->view('user-edit', 
+                [ 
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => '',
+                        'fields' => $fields,
+                        'success' => $success
+                    ])
+                ]);
+        }
+
+        if($success) {  
+            $params['id'] = $_GET['user']; 
+
+            if($user_model->update_pass($params)) {
+                $uri = $_SERVER['REQUEST_URI'];
+                header('location: ' . $uri);
+            } else {
+                return $this->view('user-edit', 
+                [ 
+                    'user' => json_encode($user),
+                    'data' => json_encode([
+                        'params' => $params,
+                        'message' => 'Houve um erro ao tentar editar sua senha.',
                         'success' => $success
                     ])
                 ]);

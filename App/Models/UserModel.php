@@ -60,6 +60,23 @@ class UserModel {
         return $prepare->execute();
     }
 
+    public function update_pass(array $params) {
+        
+        $query = "UPDATE `inforgenenses_crud`.`users` SET 
+                    password=:password
+                    WHERE id=:id
+                ";
+
+        $prepare = $this->conn->prepare($query);
+
+        $id = $params['id'];
+        $password = password_hash($params['password'], PASSWORD_DEFAULT);
+
+        $prepare->bindValue(':id', $id, \PDO::PARAM_INT);
+        $prepare->bindValue(':password', $password);
+
+        return $prepare->execute();
+    }
 
     public function get_all() {
 
