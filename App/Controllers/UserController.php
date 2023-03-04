@@ -3,6 +3,7 @@ namespace App\Controllers;
 
 use App\Models\UserModel;
 use App\Libs\FormValidation;
+use App\Controllers\LoginController;
 
 class UserController extends Controller {
 
@@ -12,8 +13,12 @@ class UserController extends Controller {
 
     public function render_edit(array $params) {
 
-        if(!isset($_GET['user']) || empty($_GET['user'])) {
-            header('location: /');
+        if(
+            (!LoginController::is_logged())
+            || (!isset($_GET['user']) || empty($_GET['user']))
+            || (LoginController::current_user_id() != $_GET['user'])
+        ) {
+            header('location: /login');
         }
 
         $user_model = new UserModel();
@@ -167,6 +172,10 @@ class UserController extends Controller {
 
     public function edit(array $params) {
 
+        if(!LoginController::is_logged()) {
+            header('location: /login');
+        }
+
         if(!isset($_GET['user']) || empty($_GET['user'])) {
             header('location: /');
         }
@@ -285,7 +294,7 @@ class UserController extends Controller {
         }
 
         if($success) {   
-            $params['id'] = $_GET['user'];         
+            $params['id'] = LoginController::current_user_id();     
             if($user_model->update($params)) {
                 $uri = $_SERVER['REQUEST_URI'];
                 header('location: ' . $uri);
@@ -397,7 +406,7 @@ class UserController extends Controller {
         }
 
         if($success) {  
-            $params['id'] = $_GET['user']; 
+            $params['id'] = LoginController::current_user_id();
 
             if($user_model->update_pass($params)) {
                 $uri = $_SERVER['REQUEST_URI'];
@@ -417,6 +426,12 @@ class UserController extends Controller {
     }
 
     public function delete(array $params) {
+
+        if(!LoginController::is_logged()) {
+            header('location: /login');
+        }
+
+        $params['user_id'] = LoginController::current_user_id();
         
         $user_model = new UserModel();
         if($user_model->delete($params)) {
