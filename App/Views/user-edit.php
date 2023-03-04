@@ -1,5 +1,9 @@
 <?php $this->layout("master") ?>
 
+<?php 
+    $user = json_decode(str_replace('&quot;', '"', $this->e($user)));
+?>
+
 <div class="container col-xxl-5 col-lg-5 col-md-6">
     <div class="border mt-5 mb-5 py-4 px-5 rounded-3">
         <h3>Editar usuário</h3>
@@ -7,12 +11,12 @@
         <form class="pt-2 needs-validation" method="POST" action="/user/create">
             <div class="mb-3">
                 <label for="user_name" class="form-label">Nome</label>
-                <input type="text" class="form-control required" name="user_name" id="user_name" placeholder="Ex: Jhon">
+                <input type="text" class="form-control required" name="user_name" id="user_name" value="<?= $user->name ?>" placeholder="Ex: Jhon">
                 <div class="invalid-feedback" id="user_name-feedback"></div>
             </div>
             <div class="mb-3">
                 <label for="user_email" class="form-label">E-mail</label>
-                <input type="email" class="form-control required" name="user_email" id="user_email" placeholder="Ex: jhon@email.com">
+                <input type="email" class="form-control required" name="user_email" id="user_email" value="<?= $user->email ?>" placeholder="Ex: jhon@email.com">
                 <div class="invalid-feedback" id="user_email-feedback"></div>
             </div>
             <hr>
@@ -38,13 +42,7 @@
                 <label for="password" class="form-label">Nova senha</label>
                 <input type="password" class="form-control required" name="password" id="password" placeholder="Sua nova senha">
                 <div class="invalid-feedback" id="password-feedback"></div>
-                <ul class="lead list-group mt-2" id="requirements">
-                    <li id="length" class="list-group-item py-1 fs-6">Pelo menos 8 caracteres</li>
-                    <li id="lowercase" class="list-group-item py-1 fs-6">Pelo menos 1 letra minúscula</li>
-                    <li id="uppercase" class="list-group-item py-1 fs-6">Pelo menos 1 letra maiúscula</li>
-                    <li id="number" class="list-group-item py-1 fs-6">Pelo menos 1 número numérico</li>
-                    <li id="special" class="list-group-item py-1 fs-6">Pelo menos 1 caractere especial</li>
-                </ul>
+                <?php require_once(dirname(__DIR__, 2) . '/templates/html-password-requirements.html') ?>
             </div>
             <div class="mb-3">
                 <label for="conf_pass" class="form-label">Confirmar nova senha</label>
