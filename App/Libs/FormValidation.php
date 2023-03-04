@@ -1,7 +1,7 @@
 <?php
 namespace App\Libs;
 
-use App\Config\Database;
+use App\Models\UserModel;
 
 class FormValidation {
 
@@ -19,13 +19,11 @@ class FormValidation {
     }
 
     public static function user_exists(string $name) {
-        $query = "SELECT name FROM `inforgenenses_crud`.`users` WHERE name='{$name}'";
 
-        $conn = new Database();
-        $result = $conn->prepare($query);
-        $result->execute();
+        $user_model = new UserModel();
+        $user = $user_model->get_user_by('name', $name);
 
-        if($result and $result->rowCount() !== 0) {
+        if(!empty($user) and count($user)) {
             return true;
         }
 
@@ -33,13 +31,11 @@ class FormValidation {
     }
 
     public static function email_exists(string $email) {
-        $query = "SELECT email FROM `inforgenenses_crud`.`users` WHERE email='{$email}'";
 
-        $conn = new Database();
-        $result = $conn->prepare($query);
-        $result->execute();
+        $user_model = new UserModel();
+        $user = $user_model->get_user_by('email', $email);
 
-        if($result and $result->rowCount() !== 0) {
+        if(!empty($user) and count($user)) {
             return true;
         }
 
@@ -47,15 +43,11 @@ class FormValidation {
     }
 
     public static function password_verify(string $user_id, string $password) {
-        $query = "SELECT password FROM `inforgenenses_crud`.`users` WHERE id='{$user_id}'";
 
-        $conn = new Database();
-        $result = $conn->prepare($query);
-        $result->execute();
+        $user_model = new UserModel();
+        $user = $user_model->get_user_by('id', $user_id);
 
-        if($result and $result->rowCount() !== 0) {
-            $user = $result->fetch(\PDO::FETCH_ASSOC);
-
+        if(!empty($user) and count($user)) {
             return password_verify($password, $user['password']);
         }
 
