@@ -85,12 +85,21 @@ class LoginController extends Controller {
 
         if($success) {
                         
+            session_destroy();
+            
             session_start();
             $_SESSION['user'] = $user['id'];
 
             header('location: /user/edit?user=' . $user['id']);
         }
     }
+
+    public function logout(array $params) {
+
+        session_destroy();
+
+        header('location: /');
+    }   
 
     /**
      * Retorna o id do usuário logado, se não está logado o redireciona para /login.
@@ -100,7 +109,12 @@ class LoginController extends Controller {
         
         if(!isset($_SESSION['user'])) {
             header('location: /login');
-        } 
+        }
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         return $_SESSION['user'];
     }
 
@@ -109,7 +123,11 @@ class LoginController extends Controller {
      * @return boolean true|false
      */
     public static function is_logged() {
-        session_start();
+
+        if (session_status() == PHP_SESSION_NONE) {
+            session_start();
+        }
+
         return isset($_SESSION['user']);
     }
 }
