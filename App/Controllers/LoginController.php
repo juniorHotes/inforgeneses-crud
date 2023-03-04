@@ -107,7 +107,7 @@ class LoginController extends Controller {
         }
     }
 
-    public function logout(array $params) {
+    public function logout() {
 
         if (session_status() == PHP_SESSION_NONE) {
             session_start();

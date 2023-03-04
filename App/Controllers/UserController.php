@@ -435,7 +435,8 @@ class UserController extends Controller {
         
         $user_model = new UserModel();
         if($user_model->delete($params)) {
-            header('location: /');
+            $login_controller = new LoginController();
+            $login_controller->logout();
         }
     }
 }
