@@ -17,3 +17,14 @@ form ul#requirements.show {
 form .form-feedback {
     color: var(--bs-danger);
 }
+
+form #requirements li {
+    font-size: 0.875rem;
+    text-decoration: none;
+    color: var(--bs-danger);
+}
+
+form #requirements li.list-group-item-success {
+    text-decoration: line-through;
+    color: var(--bs-green);
+}
