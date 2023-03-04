@@ -45,4 +45,20 @@ class FormValidation {
 
         return false;
     }
+
+    public static function password_verify(string $user_id, string $password) {
+        $query = "SELECT password FROM `inforgenenses_crud`.`users` WHERE id='{$user_id}'";
+
+        $conn = new Database();
+        $result = $conn->prepare($query);
+        $result->execute();
+
+        if($result and $result->rowCount() !== 0) {
+            $user = $result->fetch(\PDO::FETCH_ASSOC);
+
+            return password_verify($password, $user['password']);
+        }
+
+        return false;
+    }
 }
