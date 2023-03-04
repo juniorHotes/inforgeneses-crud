@@ -377,6 +377,7 @@ class UserController extends Controller {
 
             return $this->view('user-edit', 
                 [ 
+                    'user' => json_encode($user),
                     'data' => json_encode([
                         'params' => $params,
                         'message' => '',
@@ -396,6 +397,7 @@ class UserController extends Controller {
 
             return $this->view('user-edit', 
                 [ 
+                    'user' => json_encode($user),
                     'data' => json_encode([
                         'params' => $params,
                         'message' => '',
