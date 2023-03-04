@@ -18,8 +18,8 @@ class FormValidation {
         return false;
     }
 
-    public static function user_exists(string $user_name) {
-        $query = "SELECT name FROM `inforgenenses_crud`.`users` WHERE name='{$user_name}'";
+    public static function user_exists(string $name) {
+        $query = "SELECT name FROM `inforgenenses_crud`.`users` WHERE name='{$name}'";
 
         $conn = new Database();
         $result = $conn->prepare($query);
@@ -32,8 +32,8 @@ class FormValidation {
         return false;
     }
 
-    public static function user_email_exists(string $user_email) {
-        $query = "SELECT email FROM `inforgenenses_crud`.`users` WHERE email='{$user_email}'";
+    public static function email_exists(string $email) {
+        $query = "SELECT email FROM `inforgenenses_crud`.`users` WHERE email='{$email}'";
 
         $conn = new Database();
         $result = $conn->prepare($query);

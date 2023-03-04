@@ -28,12 +28,12 @@ class UserModel {
 
         $prepare = $this->conn->prepare($query);
 
-        $user_name = $params['user_name'];
-        $user_email = $params['user_email'];
+        $name = $params['name'];
+        $email = $params['email'];
         $password = password_hash($params['password'], PASSWORD_DEFAULT);
 
-        $prepare->bindValue(':name', $user_name);
-        $prepare->bindValue(':email', $user_email);
+        $prepare->bindValue(':name', $name);
+        $prepare->bindValue(':email', $email);
         $prepare->bindValue(':password', $password);
 
         return $prepare->execute();

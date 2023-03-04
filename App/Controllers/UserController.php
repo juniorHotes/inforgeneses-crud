@@ -21,8 +21,8 @@ class UserController extends Controller {
         $success = true;
         $fields = [];
 
-        $params['user_name'] = htmlspecialchars($params['user_name']);
-        $params['user_email'] = htmlspecialchars($params['user_email']);
+        $params['name'] = htmlspecialchars($params['name']);
+        $params['email'] = htmlspecialchars($params['email']);
 
         foreach ($params as $key => $value) {
             if(empty($value)) {
@@ -47,11 +47,11 @@ class UserController extends Controller {
             ]);
         }
 
-        if(!FormValidation::is_email($params['user_email'])) {
+        if(!FormValidation::is_email($params['email'])) {
             $success = false;
 
-            $fields['user_email'] = [
-                'value' => $params['user_email'],
+            $fields['email'] = [
+                'value' => $params['email'],
                 'message' => 'Este e-mail não corresponde à um e-mail válido.'
             ];
 
@@ -85,11 +85,11 @@ class UserController extends Controller {
                 ]);
         }
 
-        if(FormValidation::user_exists($params['user_name'])) {
+        if(FormValidation::user_exists($params['name'])) {
             $success = false;
 
-            $fields['user_name'] = [
-                'value' => $params['user_name'],
+            $fields['name'] = [
+                'value' => $params['name'],
                 'message' => 'Este usuário já existe.'
             ];
 
@@ -104,11 +104,11 @@ class UserController extends Controller {
             ]);
         }
 
-        if(FormValidation::user_email_exists($params['user_email'])) {
+        if(FormValidation::email_exists($params['email'])) {
             $success = false;
 
-            $fields['user_email'] = [
-                'value' => $params['user_email'],
+            $fields['email'] = [
+                'value' => $params['email'],
                 'message' => 'Este e-mail já está cadastrado.'
             ];
 

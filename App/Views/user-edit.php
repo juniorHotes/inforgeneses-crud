@@ -10,14 +10,14 @@
         <hr>
         <form class="pt-2 needs-validation" method="POST" action="/user/create">
             <div class="mb-3">
-                <label for="user_name" class="form-label">Nome</label>
-                <input type="text" class="form-control required" name="user_name" id="user_name" value="<?= $user->name ?>" placeholder="Ex: Jhon">
-                <div class="invalid-feedback" id="user_name-feedback"></div>
+                <label for="name" class="form-label">Nome</label>
+                <input type="text" class="form-control required" name="name" id="name" value="<?= $user->name ?>" placeholder="Ex: Jhon">
+                <div class="invalid-feedback" id="name-feedback"></div>
             </div>
             <div class="mb-3">
-                <label for="user_email" class="form-label">E-mail</label>
-                <input type="email" class="form-control required" name="user_email" id="user_email" value="<?= $user->email ?>" placeholder="Ex: jhon@email.com">
-                <div class="invalid-feedback" id="user_email-feedback"></div>
+                <label for="email" class="form-label">E-mail</label>
+                <input type="email" class="form-control required" name="email" id="email" value="<?= $user->email ?>" placeholder="Ex: jhon@email.com">
+                <div class="invalid-feedback" id="email-feedback"></div>
             </div>
             <hr>
             <div class="d-grid gap-2">
