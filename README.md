@@ -25,6 +25,7 @@ Criação, leitura, atualização e exclusão de usuarios
 3 - Abra no seu navegador <a href="http:localhost:8080">http:localhost:8080</a></br>
 
 ### Observações
+ * O arquivo `db.sql` contém o script sql para criar o banco de dados e a tabela de usuários.
  * Para o servidor integrado do php reconhecer o msql/pdo será preciso configurar o arquivo php.ini</br>
    * Edite o php.ini
         * Descomente/Remova o `;` antes do ``extension_dir="ext"``
